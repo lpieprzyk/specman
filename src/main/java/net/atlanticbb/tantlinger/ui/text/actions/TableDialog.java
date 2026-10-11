@@ -1,10 +1,12 @@
 package net.atlanticbb.tantlinger.ui.text.actions;
 
+import specman.graphics.IconReader;
+import specman.graphics.SpecmanIcons;
+
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
 import net.atlanticbb.tantlinger.i18n.I18n;
 import net.atlanticbb.tantlinger.ui.HeaderPanel;
-import net.atlanticbb.tantlinger.ui.UIUtils;
 import org.apache.commons.lang.StringUtils;
 import specman.Specman;
 import specman.editarea.TextEditArea;
@@ -25,7 +27,7 @@ import java.util.List;
 
 public class TableDialog extends JDialog {
     private static final I18n i18n = I18n.getInstance("net.atlanticbb.tantlinger.ui");
-    private static final Icon icon = UIUtils.getIcon("resources/images/x32/", "table.png");
+    private static final Icon icon = IconReader.readSvgIcon(SpecmanIcons.TABLE, SpecmanIcons.SIZE_DIALOG);
     private static final String title = "Insert table...";
     private static final String desc = "Insert a table";
     private JTextField columns = new JTextField("3");

@@ -599,6 +599,11 @@ public class Specman extends JFrame implements EditorI, SpaltenContainerI, Specm
 		getHauptSequenz().zusammenklappenFuerReview();
 	}
 
+	@Override
+	public void alleSchritteKlappen(boolean zuklappen) {
+		getHauptSequenz().alleKlappen(zuklappen);
+	}
+
 	@Override public int getZoomFactor() {
 		return zoomFaktor;
 	}

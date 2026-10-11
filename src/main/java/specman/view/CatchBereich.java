@@ -166,6 +166,12 @@ public class CatchBereich extends AbstractSchrittView implements KlappbarerBerei
     }
   }
 
+  @Override
+  public void alleKlappen(boolean zuklappen) {
+    klappen.setGeklapptProgrammatisch(zuklappen);
+    super.alleKlappen(zuklappen);
+  }
+
   public void skalieren(int prozentNeu, int prozentAktuell) {
     catchSequences.forEach(seq -> seq.skalieren(prozentNeu, prozentAktuell));
     computeBarRowSpec(prozentNeu);

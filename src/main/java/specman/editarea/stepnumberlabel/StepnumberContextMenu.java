@@ -1,6 +1,7 @@
 package specman.editarea.stepnumberlabel;
 
 import specman.graphics.IconReader;
+import specman.graphics.SpecmanIcons;
 import specman.undo.UndoableFlatNumberingToggled;
 import specman.undo.manager.UndoRecording;
 import specman.view.AbstractSchrittView;
@@ -42,7 +43,7 @@ public class StepnumberContextMenu implements MouseListener {
   }
 
   private JMenuItem createUpItem() {
-    return createItem("Move up", "arrow-up", e -> {
+    return createItem("Move up", SpecmanIcons.MOVE_UP, e -> {
       try(UndoRecording ur = editor().composeUndo()) {
         currentStep.moveCoCatchUpUDBL(initiatingLabel);
       }
@@ -50,7 +51,7 @@ public class StepnumberContextMenu implements MouseListener {
   }
 
   private JMenuItem createDownItem() {
-    return createItem("Move down", "arrow-down", e -> {
+    return createItem("Move down", SpecmanIcons.MOVE_DOWN, e -> {
       try(UndoRecording ur = editor().composeUndo()) {
         currentStep.moveCoCatchDownUDBL(initiatingLabel);
       }
@@ -72,8 +73,8 @@ public class StepnumberContextMenu implements MouseListener {
     return item;
   }
 
-  private JMenuItem createItem(String label, String iconBasename, ActionListener actionListener) {
-    ImageIcon icon = IconReader.readImageIcon(iconBasename);
+  private JMenuItem createItem(String label, String iconPath, ActionListener actionListener) {
+    Icon icon = IconReader.readSvgIcon(iconPath, SpecmanIcons.SIZE_SMALL);
     JMenuItem item = new JMenuItem(label, icon);
     item.addActionListener(actionListener);
     popup.add(item);
@@ -81,20 +82,20 @@ public class StepnumberContextMenu implements MouseListener {
   }
 
   private JMenuItem createDeleteItem() {
-    return createItem("Löschen", "loeschen",
+    return createItem("Löschen", SpecmanIcons.DELETE,
       e -> editor().deleteStepADBL(currentStep, initiatingLabel));
   }
 
   private JMenuItem createCopyItem() {
-    return createItem("Copy", "copy", e -> editor().copyStepToClipboard(currentStep));
+    return createItem("Copy", SpecmanIcons.COPY, e -> editor().copyStepToClipboard(currentStep));
   }
 
   private JMenuItem createCutItem() {
-    return createItem("Cut", "cut", e -> editor().cutStepToClipboard(currentStep, initiatingLabel));
+    return createItem("Cut", SpecmanIcons.CUT, e -> editor().cutStepToClipboard(currentStep, initiatingLabel));
   }
 
   private JMenuItem createPasteItem() {
-    return createItem("Paste", "paste", e -> editor().pasteStepsAfter(currentStep));
+    return createItem("Paste", SpecmanIcons.PASTE, e -> editor().pasteStepsAfter(currentStep));
   }
 
   private JMenuItem createItem(String label, ActionListener actionListener) {
@@ -105,12 +106,12 @@ public class StepnumberContextMenu implements MouseListener {
   }
 
   private JMenuItem createLeftItem() {
-    return createItem("Move left", "arrow-left",
+    return createItem("Move left", SpecmanIcons.MOVE_LEFT,
       e -> editor().moveBranchSequenceLeftADBL(currentStep, initiatingLabel));
   }
 
   private JMenuItem createRightItem() {
-    return createItem("Move right", "arrow-right",
+    return createItem("Move right", SpecmanIcons.MOVE_RIGHT,
       e -> editor().moveBranchSequenceRightADBL(currentStep, initiatingLabel));
   }
 

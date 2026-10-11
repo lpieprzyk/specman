@@ -52,8 +52,8 @@ public class KlappButton extends HangingTab implements MouseMotionListener, Mous
   private final Integer fillerrow;
   private final KlappbarerBereichI klappbarerBereich;
   private final Container parent;
-  private final SvgIcon collapseIcon = new SvgIcon("minus", ICON_GLYPH_SIZE);
-  private final SvgIcon expandIcon = new SvgIcon("plus", ICON_GLYPH_SIZE);
+  private final SvgIcon collapseIcon = new SvgIcon("svg/material/remove", ICON_GLYPH_SIZE);
+  private final SvgIcon expandIcon = new SvgIcon("svg/material/add", ICON_GLYPH_SIZE);
   private Color currentColor;
   private boolean selected;
   // Safety net for mouseMoved/mouseExited-based hover detection (see mouseMoved's comment for why
@@ -101,9 +101,38 @@ public class KlappButton extends HangingTab implements MouseMotionListener, Mous
 
   public void init(boolean zugeklappt) {
     if (zugeklappt && !isSelected()) {
-      mouseClicked(null);
+      setGeklappt(true);
       setVisible(isSelected());
     }
+  }
+
+  /**
+   * Klappt den Bereich zu bzw. auf, unabhängig davon, in welche Richtung der Button zuletzt geschaltet
+   * wurde. Ist der Bereich bereits im gewünschten Zustand, passiert nichts.
+   */
+  public void setGeklappt(boolean geklappt) {
+    if (geklappt == isSelected()) {
+      return;
+    }
+    setSelected(geklappt);
+    if (geklappt) {
+      boolean zuklappenVerbirgtAenderungen = klappbarerBereich.enthaeltAenderungsmarkierungen();
+      if (zuklappenVerbirgtAenderungen) {
+        setColor(Color.yellow);
+      }
+    } else {
+      resetToDefaultBackground();
+    }
+    refreshGeklappt();
+  }
+
+  /**
+   * Wie {@link #setGeklappt(boolean)}, aber für Klappvorgänge ohne Maus über dem Button: ein zugeklappter
+   * Button bleibt sichtbar, ein aufgeklappter verschwindet wieder.
+   */
+  public void setGeklapptProgrammatisch(boolean geklappt) {
+    setGeklappt(geklappt);
+    setVisible(isSelected());
   }
 
   /** Default look: takes on the step's actual background color (possibly changeset-tinted)
@@ -207,16 +236,7 @@ public class KlappButton extends HangingTab implements MouseMotionListener, Mous
   }
 
   @Override public void mouseClicked(MouseEvent e) {
-    setSelected(!isSelected());
-    if (isSelected()) {
-      boolean zuklappenVerbirgtAenderungen = klappbarerBereich.enthaeltAenderungsmarkierungen();
-      if (zuklappenVerbirgtAenderungen) {
-        setColor(Color.yellow);
-      }
-    } else {
-      resetToDefaultBackground();
-    }
-    refreshGeklappt();
+    setGeklappt(!isSelected());
   }
 
   @Override public void mousePressed(MouseEvent e) {

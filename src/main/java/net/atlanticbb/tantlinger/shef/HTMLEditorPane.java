@@ -1,8 +1,11 @@
 package net.atlanticbb.tantlinger.shef;
 
+import specman.graphics.IconReader;
+import specman.graphics.SpecmanIcons;
+
 import net.atlanticbb.tantlinger.i18n.I18n;
 import net.atlanticbb.tantlinger.ui.DefaultAction;
-import net.atlanticbb.tantlinger.ui.UIUtils;
+import net.atlanticbb.tantlinger.ui.ShefIconOverrides;
 import net.atlanticbb.tantlinger.ui.text.CompoundUndoManager;
 import net.atlanticbb.tantlinger.ui.text.Entities;
 import net.atlanticbb.tantlinger.ui.text.HTMLUtils;
@@ -271,6 +274,8 @@ public class HTMLEditorPane extends JPanel
     insertMenu.add(act);
 
     createFormatToolBar(paraActions, fontSizeActions);
+    ShefIconOverrides.apply(actionList);
+    ShefIconOverrides.useLargeIcons(formatToolBar);
   }
 
   private void createFormatToolBar(ActionList blockActs, ActionList fontSizeActs)
@@ -319,7 +324,7 @@ public class HTMLEditorPane extends JPanel
     fontFamilyCombo.addActionListener(fontChangeHandler);
     formatToolBar.add(fontFamilyCombo);
 
-    final JButton fontSizeButton = new JButton(UIUtils.getIcon(UIUtils.X16, "fontsize.png"));
+    final JButton fontSizeButton = new JButton(IconReader.readSvgIcon(SpecmanIcons.FONT_SIZE, SpecmanIcons.SIZE_TOOLBAR));
     final JPopupMenu sizePopup = ActionUIFactory.getInstance().createPopupMenu(fontSizeActs);
     ActionListener al = e -> sizePopup.show(fontSizeButton, 0, fontSizeButton.getHeight());
     fontSizeButton.addActionListener(al);
@@ -413,10 +418,8 @@ public class HTMLEditorPane extends JPanel
   {
     button.setText(null);
     button.setMnemonic(0);
-    button.setMargin(new Insets(1, 1, 1, 1));
-    button.setMaximumSize(new Dimension(22, 22));
-    button.setMinimumSize(new Dimension(22, 22));
-    button.setPreferredSize(new Dimension(22, 22));
+    // same sizing as the DiagramToolBar buttons: no margin, size derived from the icon
+    button.setMargin(new Insets(0, 0, 0, 0));
     button.setFocusable(false);
     button.setFocusPainted(false);
     //button.setBorder(plainBorder);

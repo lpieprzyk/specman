@@ -1,9 +1,12 @@
 package specman;
 
 import specman.graphics.IconReader;
+import specman.graphics.SpecmanIcons;
 import specman.ops.buttons.AcceptChangesADBLOpButton;
 import specman.ops.buttons.BirdsViewSpecmanOpButton;
+import specman.ops.buttons.CollapseAllOpButton;
 import specman.ops.buttons.DeleteStepOpButton;
+import specman.ops.buttons.ExpandAllOpButton;
 import specman.ops.buttons.ExportPDFOpButton;
 import specman.ops.buttons.MergeChangeSetsADBLOpButton;
 import specman.ops.buttons.RejectChangesADBLOpButton;
@@ -16,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DiagramToolBar extends JToolBar {
+
 
   private final JToggleButton aenderungenVerfolgen;
   private final AcceptChangesADBLOpButton aenderungenUebernehmen;
@@ -42,26 +46,30 @@ public class DiagramToolBar extends JToolBar {
 
     ReviewOpButton review = new ReviewOpButton(specman);
     zoom = new ZoomComboBox(specman);
-    BirdsViewSpecmanOpButton birdsview = new BirdsViewSpecmanOpButton(specman);
+    CollapseAllOpButton collapseAll = new CollapseAllOpButton(specman);
+    ExpandAllOpButton expandAll = new ExpandAllOpButton(specman);
+    BirdsViewSpecmanOpButton birdsview =new BirdsViewSpecmanOpButton(specman);
     ExportPDFOpButton exportPDF = new ExportPDFOpButton(specman);
 
-    addButton(einfaerben, "helligkeit", "Hintergrund schattieren");
-    addButton(loeschen, "loeschen", "Schritt löschen");
-    addButton(toggleBorderType, "switch-border", "Rahmen umschalten");
+    addButton(einfaerben, SpecmanIcons.TONE, "Hintergrund schattieren");
+    addButton(loeschen, SpecmanIcons.DELETE, "Schritt löschen");
+    addButton(toggleBorderType, SpecmanIcons.TOGGLE_BORDER, "Rahmen umschalten");
     addSeparator();
-    addButton(aenderungenVerfolgen, "aenderungen", "Änderungen verfolgen");
-    addButton(aenderungenUebernehmen, "uebernehmen", "Änderungen übernehmen");
-    addButton(aenderungenVerwerfen, "verwerfen", "Änderungen verwerfen");
-    addButton(mergeChangeSets, "merge", "Change Sets zusammenführen");
-    addButton(review, "review", "Für Review zusammenklappen");
+    addButton(aenderungenVerfolgen, SpecmanIcons.TRACK_CHANGES, "Änderungen verfolgen");
+    addButton(aenderungenUebernehmen, SpecmanIcons.ACCEPT_CHANGES, "Änderungen übernehmen");
+    addButton(aenderungenVerwerfen, SpecmanIcons.REJECT_CHANGES, "Änderungen verwerfen");
+    addButton(mergeChangeSets, SpecmanIcons.MERGE_CHANGE_SETS, "Change Sets zusammenführen");
+    addButton(review, SpecmanIcons.REVIEW, "Für Review zusammenklappen");
     addSeparator();
     add(zoom);
-    addButton(birdsview, "birdsview", "Bird's View");
-    addButton(exportPDF, "pdf", "PDF exportieren");
+    addButton(collapseAll, SpecmanIcons.COLLAPSE_ALL, "Alle Schritte einklappen");
+    addButton(expandAll, SpecmanIcons.EXPAND_ALL, "Alle Schritte ausklappen");
+    addButton(birdsview, SpecmanIcons.BIRDS_VIEW, "Bird's View");
+    addButton(exportPDF, SpecmanIcons.PDF, "PDF exportieren");
   }
 
-  private void addButton(AbstractButton button, String iconBasename, String tooltip) {
-    button.setIcon(IconReader.readImageIcon(iconBasename));
+  private void addButton(AbstractButton button, String iconPath, String tooltip) {
+    button.setIcon(IconReader.readSvgIcon(iconPath, SpecmanIcons.SIZE_TOOLBAR));
     button.setMargin(new Insets(0, 0, 0, 0));
     button.setToolTipText(tooltip);
     add(button);

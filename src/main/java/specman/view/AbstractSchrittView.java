@@ -234,6 +234,14 @@ abstract public class AbstractSchrittView implements KlappbarerBereichI, Compone
 		unterSequenzen().forEach(SchrittSequenzView::zusammenklappenFuerReview);
 	}
 
+	/**
+	 * Klappt diesen Schritt und alle Schritte darunter zu bzw. auf, unabhängig von Änderungsmarkierungen.
+	 * Klappbare Schrittarten überschreiben die Methode und rufen anschließend super auf.
+	 */
+	public void alleKlappen(boolean zuklappen) {
+		unterSequenzen().forEach(sequenz -> sequenz.alleKlappen(zuklappen));
+	}
+
 	public String ersteZeileExtraieren() {
 		String[] zeilen = editContainer.getPlainText().split("\n");
 		for (String zeile: zeilen) {

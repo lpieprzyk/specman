@@ -36,6 +36,7 @@ public interface SpecmanOpContext extends EditorI {
   void markAsUnsavedWorkingCopy();
   void notifyWorkingCopyInitialized(long timestamp);
   void zusammenklappenFuerReview();
+  void alleSchritteKlappen(boolean zuklappen);
   void showMessage(String text);
   /** Shows a brief non-modal toast notification; clicking "Details" opens the full modal dialog. */
   default void showToast(String briefMessage, String detailMessage) {
