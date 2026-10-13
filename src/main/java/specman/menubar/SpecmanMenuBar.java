@@ -61,6 +61,9 @@ public class SpecmanMenuBar extends JMenuBar {
     exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK));
     exit.addActionListener(e -> context.exit());
 
+    JMenuItem metaTags = new JMenuItem("Meta Tags...", IconReader.readImageIcon("tags"));
+    metaTags.addActionListener(e -> context.openMetaTagConfigs());
+
     JMenuItem settings = new JMenuItem("Settings", icon(SpecmanIcons.SETTINGS));
     settings.addActionListener(e -> context.openSettings());
 
@@ -74,6 +77,7 @@ public class SpecmanMenuBar extends JMenuBar {
     dateiMenu.add(exportAsPDF);
     dateiMenu.add(exportAsGraphviz);
     dateiMenu.addSeparator();
+    dateiMenu.add(metaTags);
     dateiMenu.add(settings);
     dateiMenu.add(exit);
     return dateiMenu;
