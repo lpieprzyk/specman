@@ -168,6 +168,12 @@ public class CatchBereich extends AbstractSchrittView implements KlappbarerBerei
     }
   }
 
+  @Override
+  public void alleKlappen(boolean zuklappen) {
+    klappen.setGeklapptProgrammatisch(zuklappen);
+    super.alleKlappen(zuklappen);
+  }
+
   public void skalieren(int prozentNeu, int prozentAktuell) {
     catchSequences.forEach(seq -> seq.skalieren(prozentNeu, prozentAktuell));
     computeBarRowSpec(prozentNeu);
@@ -316,13 +322,18 @@ public class CatchBereich extends AbstractSchrittView implements KlappbarerBerei
     if (bereichPanel.isVisible()) {
       Shape shape = new Shape(getPanel(), this)
         .withBackgroundColor(GAP_COLOR)
-        .add(new Shape(topBar).withBackgroundColor(topBar.getBackground()))
-        .add(new Shape(bottomBar).withBackgroundColor(bottomBar.getBackground()));
-      Shape sequencesShape = new Shape(sequencesPanel);
-      for (CatchSchrittSequenzView seq: catchSequences) {
-        sequencesShape.add(seq.getShapeSequence());
+        .add(new Shape(topBar).withBackgroundColor(topBar.getBackground()));
+      // Hidden components are not laid out, so their bounds are outdated and must not be exported
+      if (bottomBar.isVisible()) {
+        shape.add(new Shape(bottomBar).withBackgroundColor(bottomBar.getBackground()));
       }
-      shape.add(sequencesShape);
+      if (sequencesPanel.isVisible()) {
+        Shape sequencesShape = new Shape(sequencesPanel);
+        for (CatchSchrittSequenzView seq: catchSequences) {
+          sequencesShape.add(seq.getShapeSequence());
+        }
+        shape.add(sequencesShape);
+      }
       return decoratedShape(shape);
     }
     return null;

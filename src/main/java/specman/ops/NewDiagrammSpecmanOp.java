@@ -12,6 +12,8 @@ public class NewDiagrammSpecmanOp extends AbstractInitSpecmanOp {
     }
     AutoSaveOp.deleteWorkingCopyFor(getDiagrammDatei());
     clearFocusHistory();
+    // Verwaiste Textfläche des alten Diagramms würde Einfügungen verschlucken
+    context().setLastFocusedTextArea(null);
     setChangeModeEnabled(false);
     context().initEmptyDiagram();
     zoomFaktorAnzeigeAktualisieren(100);
