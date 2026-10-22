@@ -122,6 +122,8 @@ public class LoadDiagrammSpecmanOp extends AbstractInitSpecmanOp {
 
   void loadOrThrow(File diagramFile) throws EditException, IOException {
     clearFocusHistory();
+    // Verwaiste Textfläche des alten Diagramms würde Einfügungen verschlucken
+    context().setLastFocusedTextArea(null);
     setChangeModeEnabled(false);
     dropWelcomeMessage();
     setDiagrammDatei(diagramFile);
@@ -133,6 +135,8 @@ public class LoadDiagrammSpecmanOp extends AbstractInitSpecmanOp {
 
   void loadOrThrow(byte[] snapshot) throws EditException, IOException {
     clearFocusHistory();
+    // Verwaiste Textfläche des alten Diagramms würde Einfügungen verschlucken
+    context().setLastFocusedTextArea(null);
     setChangeModeEnabled(false);
     dropWelcomeMessage();
     // setDiagrammDatei intentionally omitted — caller manages the file reference
@@ -142,7 +146,7 @@ public class LoadDiagrammSpecmanOp extends AbstractInitSpecmanOp {
     applyEnvelope(envelope);
   }
 
-  private void applyEnvelope(ModelEnvelope envelope) throws EditException {
+  private void applyEnvelope(ModelEnvelope envelope) {
     DiagramModel_V002 model = resolveModel(envelope);
 
     setMetaTagConfigs(toConfigs(model.metaTagConfigs));

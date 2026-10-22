@@ -50,8 +50,8 @@ public class KlappButton extends AbstractMetaTag implements MouseMotionListener,
   private final Integer fillerrow;
   private final KlappbarerBereichI klappbarerBereich;
   private final Container parent;
-  private final SvgIcon collapseIcon = new SvgIcon("minus", ICON_GLYPH_SIZE);
-  private final SvgIcon expandIcon = new SvgIcon("plus", ICON_GLYPH_SIZE);
+  private final SvgIcon collapseIcon = new SvgIcon("svg/material/remove", ICON_GLYPH_SIZE);
+  private final SvgIcon expandIcon = new SvgIcon("svg/material/add", ICON_GLYPH_SIZE);
   private Color currentColor;
   private boolean selected;
   // Safety net for mouseMoved/mouseExited-based hover detection (see mouseMoved's comment for why
@@ -99,20 +99,51 @@ public class KlappButton extends AbstractMetaTag implements MouseMotionListener,
 
   public void init(boolean zugeklappt) {
     if (zugeklappt && !isSelected()) {
-      mouseClicked(null);
+      setGeklappt(true);
       setVisible(isSelected());
     }
   }
 
-  /** Unfolds the area programmatically, e.g. to show a search hit. Unlike a click, there is no mouse
-   * over the button afterwards, so it must not stay visible for hovering.
+  /**
+   * Klappt den Bereich zu bzw. auf, unabhängig davon, in welche Richtung der Button zuletzt geschaltet
+   * wurde. Ist der Bereich bereits im gewünschten Zustand, passiert nichts.
+   */
+  public void setGeklappt(boolean geklappt) {
+    if (geklappt == isSelected()) {
+      return;
+    }
+    setSelected(geklappt);
+    if (geklappt) {
+      ChangeSet hiddenChangeSet = klappbarerBereich.firstChangeSet();
+      if (hiddenChangeSet != null) {
+        setColor(hiddenChangeSet.textColor());
+      }
+    } else {
+      resetToDefaultBackground();
+    }
+    refreshGeklappt();
+  }
+
+  /**
+   * Wie {@link #setGeklappt(boolean)}, aber für Klappvorgänge ohne Maus über dem Button: ein zugeklappter
+   * Button bleibt sichtbar, ein aufgeklappter verschwindet wieder.
+   */
+  public void setGeklapptProgrammatisch(boolean geklappt) {
+    setGeklappt(geklappt);
+    if (isSelected()) {
+      setVisible(true);
+    } else {
+      setHoverVisible(false);
+    }
+  }
+
+  /** Unfolds the area programmatically, e.g. to show a search hit.
    * @return whether the area was folded before */
   public boolean unfold() {
     if (!isSelected()) {
       return false;
     }
-    mouseClicked(null);
-    setHoverVisible(false);
+    setGeklapptProgrammatisch(false);
     return true;
   }
 
@@ -217,16 +248,7 @@ public class KlappButton extends AbstractMetaTag implements MouseMotionListener,
   }
 
   @Override public void mouseClicked(MouseEvent e) {
-    setSelected(!isSelected());
-    if (isSelected()) {
-      ChangeSet hiddenChangeSet = klappbarerBereich.firstChangeSet();
-      if (hiddenChangeSet != null) {
-        setColor(hiddenChangeSet.textColor());
-      }
-    } else {
-      resetToDefaultBackground();
-    }
-    refreshGeklappt();
+    setGeklappt(!isSelected());
   }
 
   @Override public void mousePressed(MouseEvent e) {

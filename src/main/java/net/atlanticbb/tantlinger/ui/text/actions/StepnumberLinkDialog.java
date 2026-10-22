@@ -1,10 +1,12 @@
 package net.atlanticbb.tantlinger.ui.text.actions;
 
+import specman.graphics.IconReader;
+import specman.graphics.SpecmanIcons;
+
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
 import net.atlanticbb.tantlinger.i18n.I18n;
 import net.atlanticbb.tantlinger.ui.HeaderPanel;
-import net.atlanticbb.tantlinger.ui.UIUtils;
 import org.apache.commons.lang.StringUtils;
 
 import static specman.Specman.editor;
@@ -31,7 +33,7 @@ public class StepnumberLinkDialog extends JDialog {
     @Serial
     private static final long serialVersionUID = 1L;
     private static final I18n i18n = I18n.getInstance("net.atlanticbb.tantlinger.ui.text.dialogs");
-    private static final Icon icon = UIUtils.getIcon("resources/images/x32/", "link3.png");
+    private static final Icon icon = IconReader.readSvgIcon(SpecmanIcons.STEPNUMBER_LINK, SpecmanIcons.SIZE_DIALOG);
     private static final String title = i18n("action.stepnumberlink");
     private static final String desc = i18n("dialog.stepnumberlink.description");
     private static final Color DEFAULT_BACKGROUND = Color.white;
